@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import cv2
 import glob
 import inquirer
+import random
 
 images = []
 
@@ -33,7 +34,7 @@ def get_images_collection(path_group):
     return images_group
 
 
-# Get NFT image order of components function:
+# Get image order of components function:
 def select_choices(options, order):
     images = []
     choices = options
@@ -54,12 +55,20 @@ def select_choices(options, order):
         images = get_images_collection(order)
         return images
 
+# Random images, every array nested is a entire image composed of one random element of a selected folder (IN ORDER)
+def random_images(image_list):
+    image_group = []
+    for images in image_list:
+        image = random.choice(images)
+        image_group.append(image)
+    return image_group
+
 
 folder_list = get_folder_list_names()
-
 images = select_choices(folder_list, [])
 
-print(images)
+nft = random_images(images)
+
 
 raw_input = input
 
