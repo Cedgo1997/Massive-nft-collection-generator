@@ -55,6 +55,14 @@ def select_choices(options, order):
         images = get_images_collection(order)
         return images
 
+# Function to get magnitude, in other words, ALL POSSIBLE IMAGES COMBINATIONS.
+def get_magnitude(image_list):
+    magnitude = 1
+    for image_group in image_list:
+        magnitude *= len(image_group)
+    print(magnitude)
+
+
 # Random images, every array nested is a entire image composed of one random element of a selected folder (IN ORDER)
 def random_images(image_list):
     image_group = []
@@ -66,6 +74,8 @@ def random_images(image_list):
 
 folder_list = get_folder_list_names()
 images = select_choices(folder_list, [])
+get_magnitude(images)
+
 
 nft = random_images(images)
 
