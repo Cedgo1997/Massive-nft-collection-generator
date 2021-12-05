@@ -1,3 +1,4 @@
+import os
 import numpy as np
 from PIL import Image
 import matplotlib.pyplot as plt
@@ -6,6 +7,11 @@ import glob
 
 # Get Images from folder:
 
+def get_folder_list_names():
+    print(os.listdir('./images'))
+
+get_folder_list_names()
+
 def get_images(folder_name):
     image_list = []
 
@@ -13,7 +19,7 @@ def get_images(folder_name):
         im=Image.open(filename)
         image_list.append(im)
 
-    return image_list
+    return image_list # Array with all images in a folder
 
 image_list = get_images('background')
 
