@@ -1,4 +1,5 @@
 import os
+from os import mkdir, path, getcwd
 from PIL import Image
 import glob
 import inquirer
@@ -88,6 +89,12 @@ def random_images(image_list, quantity=default_quantity):
 
 nft = random_images(images)
 
+# Create new folder if not exists
+def new_folder(name):
+    folder_path = path.join(getcwd(), name)
+    if not path.isdir(folder_path):
+        mkdir(folder_path)
+    return folder_path
 
 def generate(image_list):
     width, height = image_list[0][0].size
@@ -97,14 +104,17 @@ def generate(image_list):
     for images in image_list:
         for image in images:
             canva.paste(image, (0, 0), mask=image)
-        canva.save('{}.png'.format(i))
+        new_folder('generated')
+        canva.save('./generated/{}.png'.format(i))
         i += 1
         canva = Image.new(mode="RGBA", size=(
             width, height), color=(255, 255, 255, 0))
+    print('Congratulations.')
+    print('You have generate {} unique NFT.'.format(i-1))
+    print('Press any key to close.')
 
 
 generate(nft)
 
 raw_input = input
-
 raw_input()
