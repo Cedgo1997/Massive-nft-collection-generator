@@ -18,6 +18,7 @@ def get_images_collection(path_group):
 
 # Get NFT image order of components function:
 def select_choices(options, order):
+    images = []
     choices = options
     # Trigger inquirer.
     questions = [
@@ -33,10 +34,8 @@ def select_choices(options, order):
     if len(choices) > 0:
         select_choices(choices, order)
     else:
-        print(order)
-
-options = get_folder_list_names()
-select_choices(options, [])
+        images = get_images_collection(order)
+        return images
 
 
 # Get Images from folder:
