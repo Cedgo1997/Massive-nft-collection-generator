@@ -1,8 +1,5 @@
 import os
-import numpy as np
 from PIL import Image
-import matplotlib.pyplot as plt
-import cv2
 import glob
 import inquirer
 import random
@@ -56,29 +53,57 @@ def select_choices(options, order):
         return images
 
 # Function to get magnitude, in other words, ALL POSSIBLE IMAGES COMBINATIONS.
+
+
 def get_magnitude(image_list):
     magnitude = 1
     for image_group in image_list:
         magnitude *= len(image_group)
-    print(magnitude)
-
-
-# Random images, every array nested is a entire image composed of one random element of a selected folder (IN ORDER)
-def random_images(image_list):
-    image_group = []
-    for images in image_list:
-        image = random.choice(images)
-        image_group.append(image)
-    return image_group
+    return magnitude
 
 
 folder_list = get_folder_list_names()
 images = select_choices(folder_list, [])
-get_magnitude(images)
+default_quantity = get_magnitude(images)
+
+# Random images, every array nested is a entire image composed of one random element of a selected folder (IN ORDER)
+
+
+def random_images(image_list, quantity=default_quantity):
+    assert quantity <= default_quantity
+    image_group = []
+    single_image = []
+    i = 1
+    while i <= quantity:
+        for images in image_list:
+            image = random.choice(images)
+            single_image.append(image)
+
+        if single_image not in image_group:
+            image_group.append(single_image)
+            i += 1
+        single_image = []
+    return image_group
 
 
 nft = random_images(images)
 
+
+def generate(image_list):
+    width, height = image_list[0][0].size
+    i = 1
+    canva = Image.new(mode="RGBA", size=(
+        width, height), color=(255, 255, 255, 0))
+    for images in image_list:
+        for image in images:
+            canva.paste(image, (0, 0), mask=image)
+        canva.save('{}.png'.format(i))
+        i += 1
+        canva = Image.new(mode="RGBA", size=(
+            width, height), color=(255, 255, 255, 0))
+
+
+generate(nft)
 
 raw_input = input
 
